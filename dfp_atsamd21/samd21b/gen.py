@@ -1,0 +1,31 @@
+parts = ["samd21e15b",
+"samd21e15bu",
+"samd21e16b",
+"samd21e16bu",
+"samd21g15b",
+"samd21g16b",
+"samd21j15b",
+"samd21j16b"]
+
+
+libnames = []
+for part in parts:
+    libnames.append("lib{}.a".format(part))
+print("LIB := " + " ".join(libnames))
+
+for part in parts:
+    print("OBJS_{} := system_{} startup_{}".format(part.upper(), part, part))
+
+print("")
+for part in parts:
+    print("$(LIBDIR)/lib{}.a: $(call objpath,$(OBJS_{}),$(BUILDIR)) | "
+          "$(LIBDIR)\n\t$(P_AR_$(V))$(AR) rcs $@ $^".format(part, part.upper()))
+print("")
+for part in parts:
+    print("$(BUILDIR)/system_{}.o: $(SRCDIR)/system_{}.c "
+          "$(BUILDIR)/system_{}.mk | $(BUILDIR)\n\t$(P_CC_$(V))$(CC.C) "
+          "-D__AT{}__ -o $@ -c $<".format(part, part, part, part.upper()))
+    print("$(BUILDIR)/startup_{}.o: $(SRCDIR)/startup_{}.c "
+          "$(BUILDIR)/startup_{}.mk | $(BUILDIR)\n\t$(P_CC_$(V))$(CC.C) "
+          "-D__AT{}__ -o $@ -c $<\n".format(part, part, part, part.upper()))
+

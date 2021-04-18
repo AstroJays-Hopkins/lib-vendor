@@ -1,0 +1,4 @@
+// Version number 0.1.0
+#define _LIB_VENDOR_VERSION_MAJOR_ 0
+#define _LIB_VENDOR_VERSION_MINOR_ 1
+#define _LIB_VENDOR_VERSION_PATCH_ 0
